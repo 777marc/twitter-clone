@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Platform,
 } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const DATA = [
   {
@@ -56,6 +59,10 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate("Tweet Screen");
   };
 
+  const gotoNewTweet = () => {
+    navigation.navigate("New Tweet");
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.tweetContainer}>
       <TouchableOpacity onPress={() => gotoProfile()}>
@@ -91,6 +98,29 @@ export default function HomeScreen({ navigation }) {
             recusandae consequuntur fuga similique.
           </Text>
         </TouchableOpacity>
+        <View style={styles.tweetEngagement}>
+          <TouchableOpacity style={styles.flexRow}>
+            <EvilIcons name="comment" size={22} color="gray" />
+            <Text style={styles.textGray}>250</Text>
+            <Text></Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flexRow}>
+            <EvilIcons name="retweet" size={22} color="gray" />
+            <Text style={styles.textGray}>15</Text>
+            <Text></Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flexRow}>
+            <EvilIcons name="heart" size={22} color="gray" />
+            <Text style={styles.textGray}>115</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flexRow}>
+            <EvilIcons
+              name={Platform.OS === "ios" ? "share-apple" : "share-google"}
+              size={22}
+              color="gray"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -101,7 +131,16 @@ export default function HomeScreen({ navigation }) {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={() => (
+          <View style={styles.tweetSeperator}></View>
+        )}
       />
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => gotoNewTweet()}
+      >
+        <AntDesign name="plus" size={26} color="white" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -123,7 +162,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 42,
     height: 42,
-    marginLeft: 10,
+    marginRight: 8,
     borderRadius: 21,
   },
   tweetName: {
@@ -137,6 +176,30 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   tweetContent: {
+    marginLeft: 5,
     lineHeight: 18,
+  },
+  tweetEngagement: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  textGray: {
+    color: "gray",
+  },
+  tweetSeperator: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e7eb",
+  },
+  floatingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1d9bf1",
+    position: "absolute",
+    bottom: 20,
+    right: 12,
   },
 });
