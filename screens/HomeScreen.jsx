@@ -8,8 +8,7 @@ import {
   StyleSheet,
   Platform,
 } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { EvilIcons, AntDesign } from "@expo/vector-icons";
 
 const DATA = [
   {
