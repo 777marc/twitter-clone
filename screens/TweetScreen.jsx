@@ -32,19 +32,28 @@ export default function TweetScreen() {
         </Text>
       </View>
       <View style={styles.tweetEngagement}>
+        <View style={[styles.flexRow, styles.ml4]}>
+          <Text style={styles.tweetEngagementNumber}>628</Text>
+          <Text style={styles.tweetEngagementLabel}>Retweets</Text>
+        </View>
+        <View style={[styles.flexRow, styles.ml4]}>
+          <Text style={styles.tweetEngagementNumber}>38</Text>
+          <Text style={styles.tweetEngagementLabel}>Quote Tweets</Text>
+        </View>
+        <View style={[styles.flexRow, styles.ml4]}>
+          <Text style={styles.tweetEngagementNumber}>2,934</Text>
+          <Text style={styles.tweetEngagementLabel}>Likes</Text>
+        </View>
+      </View>
+      <View style={[styles.tweetEngagement, styles.spaceAround]}>
         <TouchableOpacity style={styles.flexRow}>
           <EvilIcons name="comment" size={22} color="gray" />
-          <Text style={styles.textGray}>250</Text>
-          <Text></Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.flexRow}>
           <EvilIcons name="retweet" size={22} color="gray" />
-          <Text style={styles.textGray}>15</Text>
-          <Text></Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.flexRow}>
           <EvilIcons name="heart" size={22} color="gray" />
-          <Text style={styles.textGray}>115</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.flexRow}>
           <EvilIcons
@@ -66,6 +75,9 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
     padding: 5,
+  },
+  ml4: {
+    marginLeft: 4,
   },
   avatar: {
     width: 42,
@@ -104,7 +116,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#efe7eb",
   },
-  textGray: {
+  tweetEngagementNumber: {
+    fontWeight: "bold",
+  },
+  tweetEngagementLabel: {
     color: "gray",
+    marginLeft: 6,
+  },
+  spaceAround: {
+    justifyContent: "space-around",
   },
 });
