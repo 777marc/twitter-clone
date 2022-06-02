@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Entypo, EvilIcons, AntDesign } from "@expo/vector-icons";
+import { Entypo, EvilIcons } from "@expo/vector-icons";
 
 export default function TweetScreen() {
   return (
