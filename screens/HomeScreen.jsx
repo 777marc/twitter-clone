@@ -1,60 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import TweetItem from "./components/TweetItem";
 import { AntDesign } from "@expo/vector-icons";
-
-const DATA = [
-  {
-    id: "1",
-    title: "First Item",
-  },
-  {
-    id: "2",
-    title: "Second Item",
-  },
-  {
-    id: "3",
-    title: "Third Item",
-  },
-  {
-    id: "4",
-    title: "First Item",
-  },
-  {
-    id: "5",
-    title: "Second Item",
-  },
-  {
-    id: "6",
-    title: "Third Item",
-  },
-  {
-    id: "7",
-    title: "First Item",
-  },
-  {
-    id: "8",
-    title: "Second Item",
-  },
-  {
-    id: "9",
-    title: "Third Item",
-  },
-];
+import axios from "axios";
 
 export default function HomeScreen({ navigation }) {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost/api/tweets").then((res) => {
+      setData(res.data);
+    });
+  }, []);
+
   const gotoNewTweet = () => {
     navigation.navigate("New Tweet");
   };
 
   const renderItem = ({ item }) => (
-    <TweetItem item={item} navigation={navigation} />
+    <TweetItem tweet={item} navigation={navigation} />
   );
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={DATA}
+        data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => (

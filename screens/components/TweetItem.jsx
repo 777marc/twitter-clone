@@ -1,14 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
+import { formatDistanceToNowStrict } from "date-fns";
+import locale from "date-fns/locale/en-US";
 
-export default function TweetItem({ item, navigation }) {
+export default function TweetItem({ tweet, navigation }) {
   const gotoProfile = () => {
     navigation.navigate("Profile Screen");
   };
 
   const gotoTweetScreen = () => {
     navigation.navigate("Tweet Screen");
+  };
+
+  const formatTimeDisplay = (value) => {
+    let data = value.split(" ");
+    return `${data[0]}${data[1].charAt(0)}`;
   };
 
   return (
@@ -18,7 +25,7 @@ export default function TweetItem({ item, navigation }) {
           <Image
             style={styles.avatar}
             source={{
-              uri: "https:reactnative.dev/img/tiny_logo.png",
+              uri: tweet.user.avatar,
             }}
           />
         </TouchableOpacity>
@@ -28,24 +35,23 @@ export default function TweetItem({ item, navigation }) {
             onPress={() => gotoTweetScreen()}
           >
             <Text numberOfLines={1} style={styles.tweetName}>
-              {item.title}
+              {tweet.user.name}
             </Text>
             <Text numberOfLines={1} style={styles.tweetHandle}>
-              @marcos_mendoza
+              @{tweet.user.username}
             </Text>
             <Text>&middot;</Text>
             <Text numberOfLines={1} style={styles.tweetHandle}>
-              9m
+              {formatTimeDisplay(
+                formatDistanceToNowStrict(new Date(tweet.created_at))
+              )}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.tweetContentContainer}
             onPress={() => gotoTweetScreen()}
           >
-            <Text style={styles.tweetContent}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae
-              recusandae consequuntur fuga similique.
-            </Text>
+            <Text style={styles.tweetContent}>{tweet.body}</Text>
           </TouchableOpacity>
           <View style={styles.tweetEngagement}>
             <TouchableOpacity style={styles.flexRow}>
