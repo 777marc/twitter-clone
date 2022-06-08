@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import TweetItem from "./components/TweetItem";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost/api/tweets").then((res) => {
-      setData(res.data);
-    });
+    getAllTweets();
   }, []);
 
+  const getAllTweets = () => {
+    axios.get("http://localhost/api/tweets").then((res) => {
+      setData(res.data);
+      setIsLoading(false);
+      setIsRefreshing(false);
+    });
+  };
   const gotoNewTweet = () => {
     navigation.navigate("New Tweet");
   };
@@ -21,16 +34,28 @@ export default function HomeScreen({ navigation }) {
     <TweetItem tweet={item} navigation={navigation} />
   );
 
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    getAllTweets();
+  };
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => (
-          <View style={styles.tweetSeperator}></View>
-        )}
-      />
+      {isLoading ? (
+        <ActivityIndicator style={{ marginTop: 8 }} size="large" color="gray" />
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          ItemSeparatorComponent={() => (
+            <View style={styles.tweetSeperator}></View>
+          )}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+        />
+      )}
+
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => gotoNewTweet()}
